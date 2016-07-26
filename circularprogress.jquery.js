@@ -155,12 +155,15 @@
 
         //given an element, apply a css transform to rotate it
         rotateElement: function(elem,deg){
+            //elem.css({
+            //    'transform': 'rotate('+deg+'deg)',
+            //    '-ms-transform': 'rotate('+deg+'deg)',
+            //    '-moz-tranform': 'rotate('+deg+'deg)',
+            //    '-webkit-transform': 'rotate('+deg+'deg)',
+            //    '-o-transform': 'rotate('+deg+'deg)'
+            //});
             elem.css({
-                'transform': 'rotate('+deg+'deg)',
-                '-ms-transform': 'rotate('+deg+'deg)',
-                '-moz-tranform': 'rotate('+deg+'deg)',
-                '-webkit-transform': 'rotate('+deg+'deg)',
-                '-o-transform': 'rotate('+deg+'deg)'
+                'transform': 'rotateZ('+deg+'deg)'
             });
         },
 
