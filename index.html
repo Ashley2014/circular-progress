@@ -48,40 +48,54 @@
     <script>
         $(document).ready(function(){
 
-            $('.newtest1').circles({
-                innerHTML: 'this is the inner wooo',
-                showProgress: 1,
-                initialPos:1,
-                targetPos:5,
-                scale: 6,
-                rotateBy: 360 / 6,
-                speed: 700,
-                progPreText: 'Step ',
-                progPostText: ' of 6',
-                delayAnimation: 1000,
-                onFinishMoving:function(pos){
-                    console.log('done ',pos);
-                }
-            });
+//            $('.newtest1').circles({
+//                innerHTML: 'this is the inner wooo',
+//                showProgress: 1,
+//                initialPos:1,
+//                targetPos:5,
+//                scale: 6,
+//                rotateBy: 360 / 6,
+//                speed: 700,
+//                progPreText: 'Step ',
+//                progPostText: ' of 6',
+//                delayAnimation: 1000,
+//                onFinishMoving:function(pos){
+//                    console.log('done ',pos);
+//                }
+//            });
 
             $('.newtest2').circles({
                 'targetPos':260,
-                speed: 40,
+                speed: 4,
                 onFinishMoving:function(pos){
                     console.log('done ',pos);
                 }
             });
 
-            $('.newtest3').circles({
-                initialPos:90,
-                targetPos:10,
-                showProgress: 1,
-                scale: 100,
-                progPostText: '%',
-                onFinishMoving:function(pos){
-                    console.log('done ',pos);
-                }
-            });
+            $('body').on('click',function(){
+
+                $('.newtest2').empty();
+                $('.newtest2').removeData('circles');
+                $('.newtest2').circles({
+                    'targetPos':260,
+                    speed: 4,
+                    onFinishMoving:function(pos){
+                        console.log('done ',pos);
+                    }
+                });
+            })
+
+
+//            $('.newtest3').circles({
+//                initialPos:90,
+//                targetPos:10,
+//                showProgress: 1,
+//                scale: 100,
+//                progPostText: '%',
+//                onFinishMoving:function(pos){
+//                    console.log('done ',pos);
+//                }
+//            });
 
             $('#test1').click(function(e){
                 e.preventDefault();
