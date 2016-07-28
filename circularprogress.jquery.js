@@ -1,52 +1,53 @@
 /*
-    JQUERY CIRCULAR PROGRESS PLUGIN
-    Usage:
-        $('.element').circles();
+ JQUERY CIRCULAR PROGRESS PLUGIN
+ Usage:
+ $('.element').circles();
 
-    Markup:
-        See example
+ Markup:
+ See example
 
-    Options:
-        See https://github.com/andysellick/circular-progress
-*/
+ Options:
+ See https://github.com/andysellick/circular-progress
+ */
 (function (window,$) {
-	var Plugin = function(elem,options){
-		this.elem = elem;
-		this.$elem = $(elem);
-		this.options = options;
-		this.init(); //FIXME have to manually call the init function
-	}
+    var Plugin = function(elem,options){
+        this.elem = elem;
+        this.$elem = $(elem);
+        this.options = options;
+        this.init(); //FIXME have to manually call the init function
+    }
 
-	Plugin.prototype = {
-		init: function(){
-			this.settings = $.extend({
-				rotateBy: 1, //amount to change progress by in each animation frame
-				initialPos: 0, //initial position on plugin load
-				targetPos: 0, //target position to animate to on plugin load
-				scale: 360, //sets the scale of the circle. Common uses would be to have a progress meter to show percentage progress (set this to 100) or a much smaller number of steps
-				speed: 5, //speed of animation
-				includeInner: 0, //if true, make the progress a 'ring' instead of a solid circle
-				innerHTML:'', //html to put inside the circle
-				showProgress: 0, //add an additional element into the inner to show the current position
-				progPreText:'', //text to show prior to the progress output
-				progPostText:'', //text to show after the progress output
+    Plugin.prototype = {
+        init: function(){
+            this.settings = $.extend({
+                rotateBy: 1, //amount to change progress by in each animation frame
+                initialPos: 0, //initial position on plugin load
+                targetPos: 0, //target position to animate to on plugin load
+                scale: 360, //sets the scale of the circle. Common uses would be to have a progress meter to show percentage progress (set this to 100) or a much smaller number of steps
+                reverse: false, //
+                speed: 5, //speed of animation
+                includeInner: 0, //if true, make the progress a 'ring' instead of a solid circle
+                innerHTML:'', //html to put inside the circle
+                showProgress: 0, //add an additional element into the inner to show the current position
+                progPreText:'', //text to show prior to the progress output
+                progPostText:'', //text to show after the progress output
                 delayAnimation: 0, //how long to delay the initial animation on plugin load
                 onFinishMoving: function() {}, //callback function
-			}, this.defaults, this.options);
+            }, this.defaults, this.options);
 
-			this.rpanel; //right
-			this.lpanel; //left
-			this.overallpos = 0;
-			this.inner;
-			this.innerhtml;
-			this.innerprogress;
-			this.timer;
+            this.rpanel; //right
+            this.lpanel; //left
+            this.overallpos = 0;
+            this.inner;
+            this.innerhtml;
+            this.innerprogress;
+            this.timer;
 
             //create required variables and normalise settings
             this.settings.rotateBy = Math.min(this.settings.rotateBy,360);
             this.settings.initialPos = Math.min(this.settings.initialPos,this.settings.scale);
             this.settings.targetPos = Math.min(this.settings.targetPos,this.settings.scale);
-            
+
             //this.settings.rotateBy = this.calculateScale(this.settings.rotateBy);
             this.settings.initialPos = this.calculateScale(this.settings.initialPos);
             this.settings.targetPos = this.calculateScale(this.settings.targetPos);
@@ -92,7 +93,7 @@
                 this.setTargetPos(this.settings.initialPos);
             }
         },
-        
+
         //given a scale and a position, work out actual degrees
         calculateScale: function(position){
             var multiplier = 360 / this.settings.scale;
@@ -100,7 +101,12 @@
         },
         convertScale: function(degrees){
             var divider = 360 / this.settings.scale;
-            return(Math.floor(degrees / divider));
+            if(this.settings.reverse){
+                return(Math.floor((360-degrees) / divider));
+            }else{
+                return(Math.floor(degrees / divider));
+            }
+
         },
 
         //set the position of the circle, no animation
@@ -155,20 +161,13 @@
 
         //given an element, apply a css transform to rotate it
         rotateElement: function(elem,deg){
-            //elem.css({
-            //    'transform': 'rotate('+deg+'deg)',
-            //    '-ms-transform': 'rotate('+deg+'deg)',
-            //    '-moz-tranform': 'rotate('+deg+'deg)',
-            //    '-webkit-transform': 'rotate('+deg+'deg)',
-            //    '-o-transform': 'rotate('+deg+'deg)'
-            //});
             elem.css({
                 'transform': 'rotateZ('+deg+'deg)'
             });
         },
 
         //intended as a public function, pass through the position you want
-		moveProgress: function(targ){
+        moveProgress: function(targ){
             clearTimeout(this.timer);
             targ = this.calculateScale(targ);
             targ = Math.max(Math.min(360,targ),0);
@@ -177,12 +176,13 @@
             }
         },
 
-	}
-	$.fn.circles = function(options){
-		/* syntax to use outside the plugin - http://acuriousanimal.com/blog/2013/02/25/things-i-learned-creating-a-jquery-plugin-part-ii/
-            var circle = $('.element').data('circles');
-            circle.publicMethod();
-		*/
+    }
+    $.fn.circles = function(options){
+        /* syntax to use outside the plugin - http://acuriousanimal.com/blog/2013/02/25/things-i-learned-creating-a-jquery-plugin-part-ii/
+         var circle = $('.element').data('circles');
+         circle.publicMethod();
+         */
+
         if (options === undefined || typeof options === 'object') {
             //create plugin instance for each element and store reference to the plugin within the data attr
             return this.each(function() {
@@ -191,6 +191,6 @@
                 }
             });
         }
-	}
-	window.Plugin = Plugin;
+    }
+    window.Plugin = Plugin;
 })(window,jQuery);

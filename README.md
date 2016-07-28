@@ -1,6 +1,9 @@
 Circles
 =======
 
+add reverse
+
+
 A jQuery plugin to create a circular progress bar.
 
 ---
